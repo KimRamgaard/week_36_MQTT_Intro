@@ -11,9 +11,7 @@ let MQTTclient  = mqtt.connect(
     password: process.env.MQTT_PASSWORD
   })
 
-app.get('/', (req, res) => {
-  console.log("is connected to broker: " + MQTTclient.connected) 
-})
+
 
 MQTTclient.subscribe('#');
 
@@ -23,17 +21,20 @@ MQTTclient.on('message', function (topic, message) {
   //MQTTclient.end()
 })
 
-app.listen(port, () => {
-  console.log(`app is listening on http://localhost:${port}`)
-})
-
-/*
 app.get('/', (req, res) => {
   MQTTclient.publish("kim.kool", "{i:understand, j:son}")
-  res.send('Hello World!')
+  console.log(`is connected to broker: ${MQTTclient.connected}` ) 
 })
 
 app.get('/rest', (req, res) => {
   res.send('very restfull')
 })
-*/
+
+
+app.listen(port, () => {
+  console.log(`app is listening on http://localhost:${port}`)
+})
+
+
+
+
