@@ -19,8 +19,7 @@ MQTTclient.subscribe('#');
 
 MQTTclient.on('message', function (topic, message) {
   // message is Buffer
-  
-  console.log(message.toString())
+  console.log(`topic: ${topic}, message: ${message.toString()}`)
   //MQTTclient.end()
 })
 
