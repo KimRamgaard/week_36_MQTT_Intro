@@ -13,7 +13,8 @@
   "author": "Kim Ramgaaard",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mqtt": "^4.2.1"
   },
   "devDependencies": {},
   "repository": {
