@@ -12,13 +12,14 @@ let MQTTclient  = mqtt.connect(
     password: process.env.MQTT_PASSWORD
   })
 
-client.on('connect', function (err) {
+MQTTclient.on('connect', function (err) {
   console.log(err);
 })
 
 
 app.get('/', (req, res) => {
   //MQTTclient.publish("kim.kool", "{i:understand, j:son}")
+  console.log("hello from app")
   res.send('Hello World!')
 })
 
