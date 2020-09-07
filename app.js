@@ -27,11 +27,11 @@ app.listen(port, () => {
 })
 
 MQTTclient.subscribe('#');
-client.on('message', function (topic, message) {
+MQTTclient.on('message', function (topic, message) {
   // message is Buffer
   
   console.log(topic.toString(), message.toString())
-  client.end()
+  MQTTclient.end()
 })
 
 
