@@ -15,10 +15,15 @@ let MQTTclient  = mqtt.connect(
     console.log('Connected to mqtt client');
 })
 
+
+app.get('/', (req, res) => {
+  //MQTTclient.publish("kim.kool", "{i:understand, j:son}")
+  res.send('Hello World!')
+})
+
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
-
 
 /*
 client.on('connect', function () {
@@ -28,7 +33,14 @@ client.on('connect', function () {
     }
   })
 })
+
+client.on('message', function (topic, message) {
+  // message is Buffer
+  console.log(message.toString())
+  client.end()
+})
 */
+
 
 /*
 MQTTclient.on('message', function (topic, message) {
