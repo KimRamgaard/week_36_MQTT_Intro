@@ -16,34 +16,23 @@ MQTTclient.on('connect', function (client, userdata, flags, rc) {
   console.log("connected to MQTT Client");
 })
 
-MQTTclient.subscribe('#');
+
 
 app.get('/', (req, res) => {
-  console.log("is connected to broker: " + MQTTclient.connected)
-  MQTTclient.
-  res.send('Hello World!')
-  
+  console.log("is connected to broker: " + MQTTclient.connected) 
 })
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 
-/*
-client.on('connect', function () {
-  client.subscribe('presence', function (err) {
-    if (!err) {
-      client.publish('presence', 'Hello mqtt')
-    }
-  })
-})
-
+MQTTclient.subscribe('#');
 client.on('message', function (topic, message) {
   // message is Buffer
-  console.log(message.toString())
+  
+  console.log(topic.toString(), message.toString())
   client.end()
 })
-*/
 
 
 /*
