@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
 var mqtt = require('mqtt')
+const { MqttClient } = require('mqtt')
 
 let MQTTclient  = mqtt.connect(
   'mqtt://' + process.env.MQTT_ADDRESS,
@@ -11,8 +12,8 @@ let MQTTclient  = mqtt.connect(
     password: process.env.MQTT_PASSWORD
   })
 
-  MQTTclient.on('connect', function () {
-    console.log('Connected to mqtt client');
+client.on('connect', function (err) {
+  console.log(err);
 })
 
 
