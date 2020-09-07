@@ -16,15 +16,16 @@ app.get('/', (req, res) => {
 })
 
 MQTTclient.subscribe('#');
+
 MQTTclient.on('message', function (topic, message) {
   // message is Buffer
   
-  console.log(topic.toString(), message.toString())
-  MQTTclient.end()
+  console.log(message.toString())
+  //MQTTclient.end()
 })
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`app is listening on http://localhost:${port}`)
 })
 
 /*
