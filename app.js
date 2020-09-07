@@ -12,23 +12,38 @@ let MQTTclient  = mqtt.connect(
   })
 
   MQTTclient.on('connect', function () {
-  console.log('Connected to mqtt client');
+    console.log('Connected to mqtt client');
 })
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
 })
 
+
+/*
+client.on('connect', function () {
+  client.subscribe('presence', function (err) {
+    if (!err) {
+      client.publish('presence', 'Hello mqtt')
+    }
+  })
+})
+*/
+
+/*
 MQTTclient.on('message', function (topic, message) {
   // message is Buffer
   console.log(message.toString())
   // client.end()
 })
+*/
 
 
-MQTTclient.subscribe('#');
 
 
+//MQTTclient.subscribe('#');
+
+/*
 app.get('/', (req, res) => {
   MQTTclient.publish("kim.kool", "{i:understand, j:son}")
   res.send('Hello World!')
@@ -37,4 +52,4 @@ app.get('/', (req, res) => {
 app.get('/rest', (req, res) => {
   res.send('very restfull')
 })
-
+*/
