@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000
 var mqtt = require('mqtt')
+const { response } = require('express')
 
 let MQTTclient  = mqtt.connect(
   'mqtt://' + process.env.MQTT_ADDRESS,
@@ -11,19 +12,17 @@ let MQTTclient  = mqtt.connect(
     password: process.env.MQTT_PASSWORD
   })
 
-
-
 MQTTclient.subscribe('#');
 
 MQTTclient.on('message', function (topic, message) {
   // message is Buffer
   console.log(`topic: ${topic}, message: ${message.toString()}`)
-  //MQTTclient.end()
 })
 
 app.get('/', (req, res) => {
   MQTTclient.publish("kim.kool", "{i:understand, j:son}")
   console.log(`is connected to broker: ${MQTTclient.connected}` ) 
+  res.sendStatus(200)
 })
 
 app.get('/rest', (req, res) => {
