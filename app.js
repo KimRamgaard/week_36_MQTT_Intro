@@ -1,8 +1,11 @@
-const express = require('express')
-const app = express()
-const port = process.env.PORT || 3000
+var express = require('express')
 var mqtt = require('mqtt')
-const { response } = require('express')
+var env = require('dotenv')
+
+
+env.config();
+const app = express()
+
 
 let MQTTclient  = mqtt.connect(
   'mqtt://' + process.env.MQTT_ADDRESS,
