@@ -1,5 +1,5 @@
 {
-  "name": "week_36_mqtt_intro",
+  "name": "heroku_intro",
   "version": "1.0.0",
   "description": "take 2",
   "main": "app.js",
@@ -13,5 +13,14 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KimRamgaard/week_36_MQTT_Intro.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KimRamgaard/week_36_MQTT_Intro/issues"
+  },
+  "homepage": "https://github.com/KimRamgaard/week_36_MQTT_Intro#readme"
 }
