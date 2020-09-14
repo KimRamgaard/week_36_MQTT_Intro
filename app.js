@@ -37,13 +37,10 @@ app.get('/measurements', (req, res) => {
 
 app.post('/measurements', (req, res) =>{
   SensorService.CreateTestSensorMeasurement(req,res)
-}
+})
 
 
 app.listen(process.env.APP_PORT, () => {
   console.log(`app is listening on http://localhost:${process.env.APP_PORT}`)
 })
-
-
-
 
