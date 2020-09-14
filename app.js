@@ -29,12 +29,13 @@ app.get('/', (req, res) => {
 })
 
 app.get('/rest', (req, res) => {
+  MQTTclient.publish("kim/kool", "this is a very restfull message")
   res.send('very restfull')
 })
 
 
-app.listen(port, () => {
-  console.log(`app is listening on http://localhost:${port}`)
+app.listen(process.env.APP_PORT, () => {
+  console.log(`app is listening on http://localhost:${process.env.APP_PORT}`)
 })
 
 
