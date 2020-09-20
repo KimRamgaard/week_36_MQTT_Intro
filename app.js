@@ -1,6 +1,6 @@
 var express = require('express')
 var env = require('dotenv')
-var connections = require("./connections")
+var dbConnection = require("./DatabaseConnection")
 var bodyparser = require('body-parser')
 
 //Import services
@@ -10,29 +10,28 @@ const { response } = require('express')
 //Configuation
 env.config()
 const app = express()
-connections.connectToDb()
+dbConnection.connectToDb()
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({extended: false}))
 
 
-//MQTT, TODO Move to seperate module
-MQTTclient = connections.connectToMQTTBroker()
-MQTTclient.subscribe('#');
-MQTTclient.on('message', function (topic, message) {
-  // message is Buffer
-  console.log(`topic: ${topic}, message: ${message.toString()}`)
-})
-
+//INIT MQTT
+var mqttClient = require("./mqtt");
+mqttClient.initMQTT();
 
 
 app.get('/', (req, res) => {
-  MQTTclient.publish("kim.kool", "{i:understand, j:son}")
-  console.log(`is connected to broker: ${MQTTclient.connected}` ) 
+  mqttClient.publishTestSensorMessage()
   res.sendStatus(200)
 })
 
 app.get('/measurements', (req, res) => {
   SensorService.getSensors(req, res)
+})
+
+app.get('/measurements/:location/:sensorName', (req, res) => {
+  SensorService.getSensors(req, res)
+
 })
 
 app.post('/measurements', (req, res) =>{

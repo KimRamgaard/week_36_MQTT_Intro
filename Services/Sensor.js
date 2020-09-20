@@ -3,18 +3,19 @@ var sensorMeasure = require("./../models/SensorMeasurement")
 
 exports.getSensors = function(request,response){
     
-    sensorMeasure.find().distinct('sensorName',function(err, queryResult){
+    sensorMeasure.find(request.params,function(err, queryResult){
         if(err){
-            response.sendStatus(400).send("got following error when querying for sensors: " + err)
+            response.status(400).send("got following error when querying for sensors: " + err)
+        }else{
+            response.status(200).json(queryResult);
         }
-
-        response.json(queryResult);
     })
+    
 }
+
 
 exports.CreateTestSensorMeasurement = function(request,response){
     
-
     var SensorMeasurement = new sensorMeasure({
         location: request.body.sensorMeasurement.location,
         sensorName: request.body.sensorMeasurement.sensorName,
@@ -30,7 +31,5 @@ exports.CreateTestSensorMeasurement = function(request,response){
         } else{
             response.sendStatus(200)
         }
-    })
-
-    
+    })    
 }

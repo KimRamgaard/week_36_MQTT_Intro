@@ -1,6 +1,5 @@
 var mongoose = require('mongoose');
-var env = require('dotenv');
-var MqttClient = require('mqtt');
+
 
 exports.connectToDb = function(){
     
@@ -14,14 +13,18 @@ exports.connectToDb = function(){
     });
 }
 
+/*
 exports.connectToMQTTBroker = function(){
-    let client  = MqttClient.connect(
-        'mqtt://' + process.env.MQTT_ADDRESS,
-        {
-          port: +process.env.MQTT_PORT,
-          username: process.env.MQTT_USERNAME,
-          password: process.env.MQTT_PASSWORD
-        })
+    const url = 'mqtt://' + process.env.MQTT_ADDRESS;
+    var options = {
+        port: process.env.MQTT_PORT,
+        username: process.env.MQTT_USERNAME,
+        password: process.env.MQTT_PASSWORD
+    }
+    
+    var client  = MqttClient.connect(url, options)
         console.log(`is connected to broker: ${client.connected}` ) 
+        
         return client;
 }
+*/
