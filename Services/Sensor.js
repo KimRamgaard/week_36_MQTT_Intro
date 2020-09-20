@@ -1,5 +1,6 @@
-var sensorMeasure = require("./../models/SensorMeasurement")
+//contains businesslogic related to sensor data (in this case all logic related to the REST service)
 
+var sensorMeasure = require("./../models/SensorMeasurement")
 
 exports.getSensors = function(request,response){
     
@@ -13,7 +14,6 @@ exports.getSensors = function(request,response){
     
 }
 
-
 exports.CreateTestSensorMeasurement = function(request,response){
     
     var SensorMeasurement = new sensorMeasure({
@@ -23,7 +23,6 @@ exports.CreateTestSensorMeasurement = function(request,response){
         pressure: request.body.sensorMeasurement.pressure,
         humidity: request.body.sensorMeasurement.humidity
     })
-
 
     SensorMeasurement.save(function (err) {
         if(err){

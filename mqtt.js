@@ -1,8 +1,12 @@
+//contains all business logic related to MQTT
 var sensorMeasure = require("./models/SensorMeasurement")
 var MqttClient = require('mqtt');
 
 var myMQTTClient;
 
+//Called in App.js
+// Connects to MQTT Broker and subscribes to everything from that broker.
+// adds a callback when a message is recieved and saves that message to the database
 exports.initMQTT = function(){
     connectToMQTTBroker();
     myMQTTClient.subscribe('#');
@@ -11,7 +15,8 @@ exports.initMQTT = function(){
     })
 }
 
-
+//publishes a random sensor message to the topic "Sensor". 
+//following the structure of Jeppes sensor data (though with JSON Structure)
 exports.publishTestSensorMessage = function(){
     const sensorstring = ["badevaerelse1", "badevaerelse2" ]
     
@@ -30,6 +35,7 @@ exports.publishTestSensorMessage = function(){
 
 }
 
+//facade pattern to save message to database (only contains Sensor for now)
 saveMessage = function(topic, message){
     switch(topic){
         case "Sensor":
@@ -41,17 +47,17 @@ saveMessage = function(topic, message){
     }
 }
 
+//stores Sensor data into the database using the mongoose schema
 const saveSensorData = function(message){
     const jsonMessage = JSON.parse(message);
 
-    var SensorMeasurement = new sensorMeasure({
+    const SensorMeasurement = new sensorMeasure({
         location: jsonMessage.location,
         sensorName: jsonMessage.sensorName,
         temperature: jsonMessage.temperature,
         pressure: jsonMessage.pressure,
         humidity: jsonMessage.humidity
     })
-
 
     SensorMeasurement.save(function (err) {
         if(err){
@@ -60,6 +66,7 @@ const saveSensorData = function(message){
     })   
 }
 
+//Connects to MQTT Broker
 const connectToMQTTBroker = function(){
     const url = 'mqtt://' + process.env.MQTT_ADDRESS;
     var options = {

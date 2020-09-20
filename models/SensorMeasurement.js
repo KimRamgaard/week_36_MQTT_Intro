@@ -1,12 +1,12 @@
+//contains the mongoose schema for sensorMeasurement
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-/*
-schemaoptions = new Schema.schemaoptions({
-    createdAt: 'created_at',
+const SchemaOptions = {
+    timestamps: true
+  };
 
-})
-*/
 
 
 var sensorMeasurement = new Schema({
@@ -17,6 +17,6 @@ var sensorMeasurement = new Schema({
     temperature: mongoose.SchemaTypes.Decimal128,
     pressure: mongoose.SchemaTypes.Decimal128,
     humidity: mongoose.SchemaTypes.Decimal128
-},);
+},SchemaOptions)
 
 module.exports = mongoose.model('sensorMeasurement', sensorMeasurement)
