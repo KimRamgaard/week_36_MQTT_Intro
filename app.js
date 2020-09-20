@@ -22,15 +22,18 @@ var mqttClient = require("./mqtt");
 mqttClient.initMQTT();
 
 //Routes
+//Used as a tester for publishing a message via MQTT
 app.get('/', (req, res) => {
   mqttClient.publishTestSensorMessage()
   res.sendStatus(200)
 })
 
+//Get all measurements
 app.get('/measurements', (req, res) => {
   SensorService.getSensors(req, res)
 })
 
+//Get all depending on location and sensorName
 app.get('/measurements/:location/:sensorName', (req, res) => {
   SensorService.getSensors(req, res)
 
