@@ -8,16 +8,17 @@ var myMQTTClient;
 // Connects to MQTT Broker and subscribes to everything from that broker.
 // adds a callback when a message is recieved and saves that message to the database
 exports.initMQTT = function(){
-    connectToMQTTBroker();
+    myMQTTClient = connectToMQTTBroker();
     myMQTTClient.subscribe('#');
     myMQTTClient.on('message', function (topic, message) {
-        saveMessage(topic, message)
+        saveMessage(topic, message);  
     })
 }
 
 //publishes a random sensor message to the topic "Sensor". 
 //following the structure of Jeppes sensor data (though with JSON Structure)
 exports.publishTestSensorMessage = function(){
+    const localConnection = connectToMQTTBroker();    
     const sensorstring = ["badevaerelse1", "badevaerelse2" ]
     
     topic = "Sensor"
@@ -29,7 +30,7 @@ exports.publishTestSensorMessage = function(){
         humidity: (Math.random() * 90 + 10)
     })
 
-    myMQTTClient.publish(topic, message)
+    localConnection.publish(topic, message)
     
     console.log(`send testmessage: ${message}` ) 
 
@@ -75,7 +76,6 @@ const connectToMQTTBroker = function(){
         password: process.env.MQTT_PASSWORD
     }
     
-    myMQTTClient  = MqttClient.connect(url, options)
-    console.log(`connected to MQTT Broker` ) 
+    return myMQTTClient  = MqttClient.connect(url, options)
 
 }
