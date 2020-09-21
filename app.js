@@ -12,18 +12,26 @@ var SensorService = require("./Services/Sensor")
 //Configuation
 env.config() // setup the configuation variables
 const app = express()
+var http = require('http').createServer(app);
+var io = require('socket.io')(http);
 dbConnection.connectToDb()
+app.use(express.static(__dirname))
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({extended: false}))
+
+//Socket IO stuff TODO MOVE to seperate module
+io.on('connection', (socket) => {
+  console.log('a user connected with id ' + socket.id);
+});
 
 
 //Initiates MQTT connection and adds subscriber
 var mqttClient = require("./mqtt");
-mqttClient.initMQTT();
+mqttClient.initMQTT(io);
 
 //Routes
 //Used as a tester for publishing a message via MQTT
-app.get('/', (req, res) => {
+app.get('/testdata', (req, res) => {
   mqttClient.publishTestSensorMessage()
   res.sendStatus(200)
 })
@@ -45,7 +53,7 @@ app.post('/measurements', (req, res) =>{
 })
 
 
-app.listen(process.env.APP_PORT, () => {
+http.listen(process.env.APP_PORT, () => {
   console.log(`app is listening on http://localhost:${process.env.APP_PORT}`)
 })
 

@@ -3,16 +3,19 @@ var sensorMeasure = require("./models/SensorMeasurement")
 var MqttClient = require('mqtt');
 
 var myMQTTClient;
+var IOSocket
 
 //Called in App.js
 // Connects to MQTT Broker and subscribes to everything from that broker.
 // adds a callback when a message is recieved and saves that message to the database
-exports.initMQTT = function(){
+exports.initMQTT = function(io){
+    IOSocket = io
     myMQTTClient = connectToMQTTBroker();
     myMQTTClient.subscribe('#');
     myMQTTClient.on('message', function (topic, message) {
-        saveMessage(topic, message);  
+        saveMessage(topic, message); 
     })
+    
 }
 
 //publishes a random sensor message to the topic "Sensor". 
@@ -52,6 +55,8 @@ saveMessage = function(topic, message){
 const saveSensorData = function(message){
     const jsonMessage = JSON.parse(message);
 
+    
+
     const SensorMeasurement = new sensorMeasure({
         location: jsonMessage.location,
         sensorName: jsonMessage.sensorName,
@@ -64,7 +69,8 @@ const saveSensorData = function(message){
         if(err){
             console.log(err)
         }
-    })   
+    }) 
+    IOSocket.emit('SensorDataRecieved', jsonMessage);  
 }
 
 //Connects to MQTT Broker
