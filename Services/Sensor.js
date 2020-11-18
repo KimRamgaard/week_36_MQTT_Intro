@@ -1,10 +1,10 @@
 //contains businesslogic related to sensor data (in this case all logic related to the REST service)
 
-var sensorMeasure = require("./../models/SensorMeasurement")
+var SensorSchema = require("./../models/SensorMeasurement")
 
 exports.getSensors = function(request,response){
     
-    sensorMeasure.find(request.params,function(err, queryResult){
+    SensorSchema.find(request.params,function(err, queryResult){
         if(err){
             response.status(400).send("got following error when querying for sensors: " + err)
         }else{
@@ -16,7 +16,7 @@ exports.getSensors = function(request,response){
 
 exports.CreateTestSensorMeasurement = function(request,response){
     
-    var SensorMeasurement = new sensorMeasure({
+    var SensorMeasurement = new SensorSchema({
         location: request.body.sensorMeasurement.location,
         sensorName: request.body.sensorMeasurement.sensorName,
         temperature: request.body.sensorMeasurement.temperature,
@@ -31,4 +31,42 @@ exports.CreateTestSensorMeasurement = function(request,response){
             response.sendStatus(200)
         }
     })    
+}
+
+exports.getSensorChartData = function(){  
+    var labels = [];
+    var tempData = [];
+    
+    SensorSchema.find({}, (err, sensordata) => {
+        if(err) {
+            console.log(err);
+            return;
+        }
+        
+        sensordata.forEach(function(sensorDatapoint){
+            labels.push(sensorDatapoint.get('createdAt')) 
+            tempData.push(sensorDatapoint.get('temperature'))
+        })
+
+        
+    });
+
+    return  {
+        labels,
+        tempData: [{
+            label: 'Temperature',
+            data: tempData,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)'
+
+            ],
+            borderWidth: 1
+        }]
+    };
+
+
+
 }

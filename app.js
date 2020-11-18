@@ -19,14 +19,21 @@ app.use(express.static(__dirname))
 app.use(bodyparser.json())
 app.use(bodyparser.urlencoded({extended: false}))
 
+
 //Socket IO stuff TODO MOVE to seperate module
 io.on('connection', (socket) => {
   console.log('a user connected with id ' + socket.id);
+  //ChartJS  Stuff TODO Move to seperate module
+  var SensorChartData =  SensorService.getSensorChartData()
+  io.emit('startChart', SensorChartData)
 });
+
+
 
 
 //Initiates MQTT connection and adds subscriber
 var mqttClient = require("./mqtt");
+const { emit } = require('process')
 mqttClient.initMQTT(io);
 
 //Routes
